@@ -47,7 +47,7 @@ class BaseImage(models.Model):
     description = models.TextField(_('Description'), blank=True, null=True)
     tags = TagField(_('Tags'), blank=True)
     order = models.IntegerField(_('Order'), default=0)
-    image = ImageField(verbose_name = _('File'), upload_to=get_file_path, storage=S3BotoStorage(location=settings.STORAGE_ROOT)
+    image = ImageField(verbose_name = _('File'), upload_to=get_file_path, storage=S3BotoStorage(location=settings.STORAGE_ROOT))
     user = models.ForeignKey(User, verbose_name=_('User'), null=True, blank=True, related_name='images')
     created = models.DateTimeField(_('Created'), auto_now_add=True, null=True)
     updated = models.DateTimeField(_('Updated'), auto_now=True, null=True)
