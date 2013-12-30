@@ -75,7 +75,7 @@ class BaseImage(models.Model):
             # Have to save the image (and imagefield) first
             super(BaseImage, self).save(*args, **kwargs)
             # obj is being created for the first time - resize
-            quality = getattr(settings, 'IMAGESTORE_IMAGE_QUALITY', 60)
+            quality = getattr(settings, 'IMAGESTORE_IMAGE_QUALITY', 95)
             resized = get_thumbnail(self.image, "1000x1000", quality=quality)
             # Delete the original image and reassign the resized image to the image field
             self.image.delete()
