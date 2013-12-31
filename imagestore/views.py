@@ -30,6 +30,8 @@ from mezzanine.blog.models import BlogPost
 from sorl.thumbnail import delete
 from actstream.models import Action
 from django.contrib.contenttypes.models import ContentType
+from userProfile.views import deleteObject
+
 import json
 
 try:
@@ -339,14 +341,18 @@ class DeleteAlbum(DeleteView):
 
 		for image in self.object.images.all():
 			delete(image.image)
-			image.delete()
+			content_type_id = ContentType.objects.get_for_model(image).pk
+			deleteObject(request, content_type_id, image.pk)
+			
 
 		media_root = getattr(settings, 'MEDIA_ROOT', '/')
 		album_dir = self.object.get_album_path()
 		album_abs_dir = os.path.join(media_root, album_dir)
 		os.rmdir(album_abs_dir)
 		
-		self.object.delete()
+		content_type_id = ContentType.objects.get_for_model(self.object).pk
+		deleteObject(request, content_type_id, self.object.pk)
+		
 		return HttpResponseRedirect(self.get_success_url())
 
 def json_error_response(error_message):
@@ -375,18 +381,23 @@ class CreateImage(CreateView):
 		blog_posts = BlogPost.objects.published(for_user=user).select_related().filter(user=user)
 		if blog_posts and blog_posts[0]:
 			blog_post = blog_posts[0]
+
 			if blog_post.num_images < getattr(settings, 'MAX_IMAGES_PER_VENDOR', 10):
 				blog_post.num_images += 1
 				blog_post.save()
 				self.object = form.save(commit=False)
+				
 				if self.object.album.images.exists():
 					self.object.order = self.object.album.images.all().aggregate(Max('order'))['order__max'] + 1 #self.object.album.images.all().count()
 				else:
 					self.object.order = 0
+				
 				self.object.user = self.request.user
 				self.object.save()
+				
 				if self.object.album:
 					self.object.album.save()
+					
 					if self.object.album.images.all().count() == 1:
 						action.send(blog_post, verb=settings.ALBUM_ADD_VERB, target=self.object.album)
 					else:
@@ -446,7 +457,10 @@ class DeleteImage(DeleteView):
 		self.object = self.get_object()
 		if self.object.image:
 			delete(self.object.image)
-		self.object.delete()
+		
+		content_type_id = ContentType.objects.get_for_model(self.object).pk
+		deleteObject(request, content_type_id, self.object.pk)
+
 		user = request.user
 		blog_posts = BlogPost.objects.published(for_user=user).select_related().filter(user=user)
 		if blog_posts and blog_posts[0]:
