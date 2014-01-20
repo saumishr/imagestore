@@ -9,6 +9,8 @@
 {% load static %}
 {% load imagestore_tags %}
 
+{% block meta_title %} {{ album.name }} by {{blog.title|title}}  {% endblock %}
+
 {% block extra_css %}
 <link rel="stylesheet" href="{% static "css/albumpage.css" %}"/>
 {% endblock %}
@@ -192,13 +194,12 @@
 
 
 {% block main %}
-{% get_owned_blog album.user as blog %}
 
 <div class="row topHalfGutter">
     <div class="row">
         <div class="span7">
             <h6>
-                <a href="{{ blog.get_absolute_url  }}">{{blog}}</a> | {% include "imagestore/image-scope.html" %}
+                <a href="{{ blog.get_absolute_url  }}">{{blog.title|title}}</a> | {% include "imagestore/image-scope.html" %}
             </h6>
         </div>
     </div>
