@@ -150,6 +150,11 @@ class ImageListTemplateView(ListView):
 	def get_context_data(self, **kwargs):
 		context = super(ImageListTemplateView, self).get_context_data(**kwargs)
 		context.update(self.e_context)
+		album = context['album']
+		user = album.user
+		blog_posts = BlogPost.objects.published(for_user=user).select_related().filter(user=user)
+		if blog_posts:
+			context["blog"] = blog_posts[0]
 		return context
 
 class ImageListMinView(ListView):
