@@ -33,17 +33,17 @@
 {% block content-related %}
         {% block imagestore-info %}
         {% endblock %}
+        {% if request.user.is_authenticated and request.user == view_user %}
         <div id="controls">
             <ul>
-                {% if request.user.is_authenticated and request.user == view_user %}
                 {#% endif %#}
                 {#% if imagestore_perms.add_album or request.user.is_superuser %#}
                     <li><a class="create_album rateStoreNow radioColorBackground colorWhite fontTitillium1 fontSize13 pull-right" href="{% url 'imagestore:create-album' %}">{% trans "Create album" %}</a></li>
-                {% endif %}
                 {% block controls %}
                 {% endblock controls %}
             </ul>
         </div>
+        {% endif %}
         {% block imagestore-related %}
         {% endblock %}
 {% endblock %}
