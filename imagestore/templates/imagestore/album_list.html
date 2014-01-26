@@ -52,21 +52,21 @@
 
 {% block content %}
     {% get_owned_blog view_user as blog %}
-    <h6 class="noGutter">
     {% if view_user == user %}
-        {% trans "Uploaded Images " %} {{ blog.num_images }} {% trans "/" %} {{ max_images }}
+        <h6 class="noGutter">
+            {% trans "Uploaded Images " %} {{ blog.num_images }} {% trans "/" %} {{ max_images }}
+        </h6>
     {% else %}
     {% endif %}
-    </h6>
-    {% if album_list|length == 0%}
-        <h6 class="noGutter">
+    {% if album_list|length == 0 %}
+        <div class="noGutter fontTitillium1 fontSize14 bottomHalfGutter">
         {% if view_user == user %}
         {% get_owned_blog view_user as blog %}
             {% trans "Upload Photos to showcase you collection to potential customers." %}
         {% else %}
             {{blog.title|title}} {% trans "has not uploaded any product images yet. We'll tell them you came looking." %}
         {% endif %}
-        </h6>
+        </div>
     {% else %}
         {% include "imagestore/pagination.html" %}
         <div class='album-list'>
