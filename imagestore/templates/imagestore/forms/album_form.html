@@ -19,12 +19,12 @@
 
 {% block content %}
     <div>
-    <p class="radioColor fontSize16 bottomHalfGutter">
-        {% if object %}
-            {% trans "Edit album" %}: {{ object.name }}
-        {% else %}
-            {% trans "Create album" %}
-        {% endif %}
+        <p class="radioColor fontSize16 bottomHalfGutter">
+            {% if object %}
+                {% trans "Edit album" %}: {{ object.name }}
+            {% else %}
+                {% trans "Create album" %}
+            {% endif %}
         </p>
     </div>
     <form action="{{ request.get_full_path }}" method="post" class='album-form' style="position:relative;">

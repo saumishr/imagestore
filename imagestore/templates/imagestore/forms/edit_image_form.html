@@ -1,24 +1,27 @@
 {% extends "imagestore/base.html" %}
 {% load i18n %}
-{% load thumbnail %}
+{% load thumbnail widget_tweaks %}
 {% load url from future %}
 
 {% block content %}
     <form action="{{action_url}}" method="post" enctype="multipart/form-data" class='edit-image'>
     {% csrf_token %}
     {% for field in form %}
-    	<div class="albumFormField">
-    		{% if not field.is_hidden %}
-    		   	{{field.label_tag}}
-    		{% endif %}
-    		{{field}}
-    	</div>
-    	{% if not field.is_hidden %}
-    		{{field.help_text}}
-    	{% endif %}
+        {% if not field.is_hidden %}
+    	   <div class="albumFormField">
+                <div>
+                    {{field.label_tag}}
+                </div>
+                {% render_field field class="textField" %}
+                <div>
+                </div>
+    	   </div>
+        {% else %}
+            {{field}}
+        {% endif %}
     {% endfor %}
     <div class="topHalfGutter">
-    	<input type="submit" value="{% trans "Update" %}" class='btn success'>
+    	<input type="submit" value="{% trans "Update" %}" class='makeYellowButton topHalfGutter fontTitillium radioColor noGutter fontSize15 pull-left' style="margin-bottom:1px;">
 	</div>
     </form>
 {% endblock content %}
