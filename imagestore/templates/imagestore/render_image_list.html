@@ -9,7 +9,7 @@
 {% load static %}
 {% load imagestore_tags %}
 
-{% block meta_title %} {{ album.name }} by {{blog.title|title}}  {% endblock %}
+{% block meta_title %} {{ album.name|title }} by {{blog.title|title}}  {% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static "css/albumpage.css" %}"/>
@@ -198,9 +198,9 @@
 <div class="row topHalfGutter">
     <div class="row">
         <div class="span7">
-            <h6>
+            <div class="noGutter fontTitillium1 fontSize14 bottomHalfGutter">
                 <a href="{{ blog.get_absolute_url  }}">{{blog.title|title}}</a> | {% include "imagestore/image-scope.html" %}
-            </h6>
+            </div>
         </div>
     </div>
 {% block controls %}
