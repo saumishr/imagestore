@@ -1,6 +1,6 @@
 {% extends "imagestore/base.html" %}
 {% load i18n %}
-{% load thumbnail %}
+{% load thumbnail widget_tweaks %}
 
 
 {% block title %}
@@ -18,16 +18,29 @@
 {% endblock %}
 
 {% block content %}
-    <h1>
-        {% if object %}
-            {% trans "Edit album" %}: {{ object.name }}
-        {% else %}
-            {% trans "Create album" %}
-        {% endif %}
-    </h1>
-    <form action="{{ request.get_full_path }}" method="post" class='album-form'>
+    <div>
+        <p class="radioColor fontSize16 bottomHalfGutter">
+            {% if object %}
+                {% trans "Edit album" %}: {{ object.name }}
+            {% else %}
+                {% trans "Create album" %}
+            {% endif %}
+        </p>
+    </div>
+    <form action="{{ request.get_full_path }}" method="post" class='album-form' style="position:relative;">
     {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="{% trans "Save" %}" class='btn success'>
+    {% for field in form %}
+        {% if field.label == form.name.label %}
+            {% render_field field placeholder=field.label class="textField pull-left" %}
+            <div>
+            </div>
+        {% else %}
+            {% render_field field style="display:none" %}
+        {% endif %}
+    {% endfor %}
+    {% comment %}
+        {{ form.as_p }}
+    {% endcomment %}
+    <input type="submit" value="{% trans "GO" %}" class='makeYellowButton fontTitillium radioColor fontSize15 noGutter pull-left' style="margin-bottom:1px;padding-left: 20px;padding-right: 20px;">
     </form>
 {% endblock content %}
