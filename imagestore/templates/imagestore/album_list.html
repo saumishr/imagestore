@@ -53,9 +53,9 @@
 {% block content %}
     {% get_owned_blog view_user as blog %}
     {% if view_user == user %}
-        <h6 class="noGutter">
+        <div class="noGutter fontTitillium1 fontSize14 bottomHalfGutter">
             {% trans "Uploaded Images " %} {{ blog.num_images }} {% trans "/" %} {{ max_images }}
-        </h6>
+        </div>
     {% else %}
     {% endif %}
     {% if album_list|length == 0 %}
