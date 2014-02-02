@@ -38,7 +38,7 @@
             <ul>
                 {#% endif %#}
                 {#% if imagestore_perms.add_album or request.user.is_superuser %#}
-                    <li><a class="create_album rateStoreNow radioColorBackground colorWhite fontTitillium1 fontSize13 pull-right" href="{% url 'imagestore:create-album' %}">{% trans "Create album" %}</a></li>
+                    <li><a class="create_album rateStoreNow radioColorBackground colorWhite fontTitillium1 fontSize13 pull-right" href="{% url 'imagestore:create-album' %}" data-title="Create Album">{% trans "Create album" %}</a></li>
                 {% block controls %}
                 {% endblock controls %}
             </ul>

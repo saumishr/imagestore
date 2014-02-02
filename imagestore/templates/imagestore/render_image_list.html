@@ -119,7 +119,8 @@
                                             $editImageFormContainer.submit(edit_image_submit_handler);
                                         };
 
-                doOpenUrlWithAjaxFancyBox($url, afterShowCallback);
+                var title = $(this).data('title');
+                doOpenUrlWithAjaxFancyBox($url, afterShowCallback, title);
 
     		    event.stopPropagation();
     		    event.preventDefault();
@@ -233,12 +234,12 @@
                         {% if request.user == album.user or perms.imagestore.moderate_albums %}
                         {% if request.user.is_authenticated  %}
                         <span class="pull-right">
-                            <a href="{% url 'imagestore:edit-image' image.id  %}" class="editImage"><img class="noBoxShadow" width="10px" height="10px" src="{% static "img/edit.png" %}"></a>
+                            <a href="{% url 'imagestore:edit-image' image.id  %}" class="editImage" data-title="Edit Image"><img class="noBoxShadow" width="10px" height="10px" src="{% static "img/edit.png" %}"></a>
                             <a href="{% url 'imagestore:delete-image' image.id %}" class="deleteImage"><img class="noBoxShadow" width="10px" height="10px" src="{% static "img/cross_button.png" %}"></a>
                         </span>
                         {% endif %}
                         {% endif %}
-                        <a class="album-image" rel='gallery-image[ilist]' href="{{ image.image.url }}" data-reldata-url="{{rel_data_url}}">
+                        <a class="album-image" rel='gallery-image[ilist]' href="{{ image.image.url }}" data-reldata-url="{{rel_data_url}}" {% if image.title %}title="{{image.title}}"{% endif %}>
                             <img class="preview" {% if image.title %} alt="{{ image.title }}" {% endif %} src="{{ im.url }}">
                                 {#% include 'imagestore/render_voting.html' with object=image %#}
 
